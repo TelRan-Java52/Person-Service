@@ -1,6 +1,7 @@
 package telran.java52.person.service;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.CommandLineRunner;
@@ -10,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import telran.java52.person.dao.PersonRepository;
 import telran.java52.person.dto.AddressDto;
+import telran.java52.person.dto.ChildDto;
 import telran.java52.person.dto.CityPopulationDto;
 import telran.java52.person.dto.EmployeeDto;
 import telran.java52.person.dto.PersonDto;
@@ -102,21 +104,24 @@ public class PersonServiceImpl implements PersonService, CommandLineRunner {
 	@Transactional(readOnly = true)
 	@Override
 	public ChildDto[] findAllChildren() {
-//		return personRepository.findPersonsByType(Child.class)
-//				.map(p -> mapper.mapToDto(p))
-//				.toArray(PersonDto[]::new);
+
 		return personRepository.findAllChildrenBy()
-				.map(p -> mapper.mapToDto(p))
-				.toArray(ChildDto[]::new);
+                .map(mapper::mapToDto)
+                .toArray(ChildDto[]::new);
 				
 	}
 
 	@Transactional(readOnly = true)
 	@Override
 	public EmployeeDto[] findEmployeesBySalary(Integer from, Integer to) {
-		return personRepository.findBySalaryBetween(from, to)
-				.map(p -> mapper.mapToDto(p))
-				.toArray(EmployeeDto[]::new);
+		List<Employee> people = personRepository.findBySalaryBetween(from, to);
+	    return people.stream()
+	                 .map(p -> modelMapper.map(p, PersonDto.class)
+	                 .toArray(EmployeeDto[]::new);
+
+//		return personRepository.findBySalaryBetween(from, to)
+//                .map(mapper::mapToDto)
+//                .toArray(EmployeeDto[]::new);
 	}
 	@Override
 	public void run(String... args) throws Exception {
