@@ -23,5 +23,9 @@ public interface PersonService {
 
     Iterable<CityPopulationDto> getCitiesPopulation();
 
+	PersonDto[] findAllChildren();
+
+	PersonDto[] findEmployeesBySalary(Integer from, Integer to);
+
 
 }
