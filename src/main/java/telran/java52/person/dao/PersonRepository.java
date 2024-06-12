@@ -32,7 +32,7 @@ public interface PersonRepository extends JpaRepository<Person, Integer> {
 
     Stream<Child> findAllChildrenBy();
 	
-	List<Employee> findBySalaryBetween(Integer from,  Integer to);
+    Stream<Employee> findBySalaryBetween(Integer from,  Integer to);
 
 	
 }

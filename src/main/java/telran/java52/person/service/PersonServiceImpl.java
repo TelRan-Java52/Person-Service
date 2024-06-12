@@ -106,23 +106,23 @@ public class PersonServiceImpl implements PersonService, CommandLineRunner {
 	public ChildDto[] findAllChildren() {
 
 		return personRepository.findAllChildrenBy()
-                .map(mapper::mapToDto)
+                .map(c->modelMapper.map(c, Child.class))
                 .toArray(ChildDto[]::new);
 				
 	}
 
-	@Transactional(readOnly = true)
 	@Override
-	public EmployeeDto[] findEmployeesBySalary(Integer from, Integer to) {
-		List<Employee> people = personRepository.findBySalaryBetween(from, to);
-	    return people.stream()
-	                 .map(p -> modelMapper.map(p, PersonDto.class)
-	                 .toArray(EmployeeDto[]::new);
+	@Transactional(readOnly = true)
+	public Iterable<EmployeeDto> findEmployeeBySalary(int min, int max) {
+		return personRepository.findBySalaryBetween(min, max)
+				.map(p -> modelMapper.map(p, EmployeeDto.class))
+				.toList();
+	}
 
 //		return personRepository.findBySalaryBetween(from, to)
 //                .map(mapper::mapToDto)
 //                .toArray(EmployeeDto[]::new);
-	}
+	
 	@Override
 	public void run(String... args) throws Exception {
 		if (personRepository.count() == 0) {
@@ -137,6 +137,7 @@ public class PersonServiceImpl implements PersonService, CommandLineRunner {
 			personRepository.save(employee);
 		}
 	}
+
 	
 
 }

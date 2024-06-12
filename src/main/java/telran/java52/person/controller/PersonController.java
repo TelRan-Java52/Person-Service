@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 import telran.java52.person.dto.AddressDto;
 import telran.java52.person.dto.CityPopulationDto;
+import telran.java52.person.dto.EmployeeDto;
 import telran.java52.person.dto.PersonDto;
 import telran.java52.person.service.PersonService;
 
@@ -72,8 +73,8 @@ public class PersonController {
 		return personService.findAllChildren();
 	}
 
-	@GetMapping("/salary/{from}/{to}")
-	public PersonDto[] findEmployeesBySalary(@PathVariable Integer from, @PathVariable Integer to) {
-		return personService.findEmployeesBySalary(from, to);
+    @GetMapping("/salary/{min}/{max}")
+	public Iterable<EmployeeDto> findEmployeeBySalary(@PathVariable Integer min, @PathVariable Integer max) {
+		return personService.findEmployeeBySalary(min, max);
 	}
 }
